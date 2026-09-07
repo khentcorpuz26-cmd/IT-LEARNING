@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Frameflow Studio',
+  title: 'DevShelf — IT Tools & Coding Resources',
 };
 
 export default function RootLayout({
@@ -31,4 +31,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 
