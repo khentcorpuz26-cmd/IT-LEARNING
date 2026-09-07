@@ -41,6 +41,15 @@ export default defineConfig(async () => {
   process.env.WRANGLER_LOG_PATH ??= '.wrangler/logs';
   process.env.MINIFLARE_REGISTRY_PATH ??= '.wrangler/registry';
 
+  // Vercel needs its own server adapter; Cloudflare Worker output cannot run there.
+  if (process.env.VERCEL || process.env.NITRO_PRESET === 'vercel') {
+    const { nitro } = await import('nitro/vite');
+    return {
+      css: { postcss: { plugins: [tailwindcss()] } },
+      plugins: [vinext(), sites(), nitro({ preset: 'vercel' })],
+    };
+  }
+
   // Wrangler snapshots its log path while the Cloudflare plugin is imported.
   const { cloudflare } = await import('@cloudflare/vite-plugin');
 
