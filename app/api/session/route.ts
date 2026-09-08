@@ -4,22 +4,28 @@ import { createSessionToken, SESSION_COOKIE } from '@/lib/session';
 
 const FIVE_DAYS_MS = 5 * 24 * 60 * 60 * 1000;
 
-function notifySignIn(user: { uid: string; email: string | null; name: string | null }) {
+async function notifySignIn(user: { uid: string; email: string | null; name: string | null }) {
   const webhookUrl = process.env.N8N_WEBHOOK_URL;
   if (!webhookUrl) return;
-  fetch(webhookUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      event: 'sign_in',
-      uid: user.uid,
-      email: user.email,
-      name: user.name,
-      timestamp: new Date().toISOString(),
-    }),
-  }).catch(() => {
+  try {
+    // Awaited (not fire-and-forget): serverless runtimes can freeze or kill
+    // the function as soon as the response is sent, silently dropping any
+    // unawaited background fetch before it reaches the webhook.
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event: 'sign_in',
+        uid: user.uid,
+        email: user.email,
+        name: user.name,
+        timestamp: new Date().toISOString(),
+      }),
+    });
+  } catch (err) {
     // Best-effort tracking only; a failed webhook must never block sign-in.
-  });
+    console.error('n8n webhook notification failed:', err);
+  }
 }
 
 export async function POST(request: Request) {
@@ -44,7 +50,7 @@ export async function POST(request: Request) {
       path: '/',
       maxAge: FIVE_DAYS_MS / 1000,
     });
-    notifySignIn(user);
+    await notifySignIn(user);
     return response;
   } catch (err) {
     console.error('Session verification failed:', err);
