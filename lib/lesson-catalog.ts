@@ -119,5 +119,65 @@ export const resources = [
     "url": "/learn/typescript-data-contracts",
     "color": "blue",
     "minutes": 4
+  },
+  {
+    "slug": "free-domains-and-dns",
+    "name": "Free domains and DNS: what \"free\" really means online",
+    "label": "13",
+    "category": "Deployment & free resources",
+    "description": "Understand domains and DNS records, and see which free naming options are real versus scams.",
+    "url": "/learn/free-domains-and-dns",
+    "color": "orange",
+    "minutes": 6
+  },
+  {
+    "slug": "free-website-hosting",
+    "name": "Free website hosting: choosing where your project actually lives",
+    "label": "14",
+    "category": "Deployment & free resources",
+    "description": "Compare free hosts for static sites, frontend apps, and small backends, and know their real limits.",
+    "url": "/learn/free-website-hosting",
+    "color": "cyan",
+    "minutes": 6
+  },
+  {
+    "slug": "deploy-your-first-website",
+    "name": "How to deploy a website: from a local folder to a live URL",
+    "label": "15",
+    "category": "Deployment & free resources",
+    "description": "Push a project to GitHub and deploy it live, with environment variables and a custom domain.",
+    "url": "/learn/deploy-your-first-website",
+    "color": "green",
+    "minutes": 6
+  },
+  {
+    "slug": "free-ui-and-design-resources",
+    "name": "Free UI kits, icons, and widgets: stop building every pixel from scratch",
+    "label": "16",
+    "category": "Deployment & free resources",
+    "description": "Find free component libraries, icons, illustrations, and widgets, and use them responsibly.",
+    "url": "/learn/free-ui-and-design-resources",
+    "color": "blue",
+    "minutes": 6
+  },
+  {
+    "slug": "free-apis-for-projects",
+    "name": "Free and public APIs: fuel your project with real data",
+    "label": "17",
+    "category": "Deployment & free resources",
+    "description": "Find trustworthy free APIs, read their limits, and call them without leaking an API key.",
+    "url": "/learn/free-apis-for-projects",
+    "color": "orange",
+    "minutes": 6
+  },
+  {
+    "slug": "free-custom-ui-widgets",
+    "name": "Custom UI & widgets: build interactive buttons, cards, and loaders",
+    "label": "18",
+    "category": "Deployment & free resources",
+    "description": "Master building modern glassmorphic cards, linear shimmer buttons, animated loaders, and accessible widget states without heavy libraries.",
+    "url": "/learn/free-custom-ui-widgets",
+    "color": "cyan",
+    "minutes": 7
   }
 ];

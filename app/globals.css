@@ -1,6 +1,7 @@
 @import '../node_modules/tailwindcss/index.css';
 @import '../node_modules/tw-animate-css/dist/tw-animate.css';
 @import '../node_modules/shadcn/dist/tailwind.css';
+@import './linear.css';
 
 @custom-variant dark (&:is(.dark *));
 
