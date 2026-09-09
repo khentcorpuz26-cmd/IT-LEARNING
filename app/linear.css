@@ -2061,6 +2061,21 @@
 .philosophy-header {
   max-width: 960px;
   margin: 0 auto 72px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.philosophy-logo {
+  flex-shrink: 0;
+}
+
+.philosophy-logo-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  object-fit: contain;
+  box-shadow: 0 0 24px rgba(199, 248, 108, 0.25);
 }
 
 .philosophy-statement {
@@ -2186,6 +2201,13 @@
   }
   .philosophy-header {
     margin-bottom: 48px;
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  .philosophy-logo-img {
+    width: 44px;
+    height: 44px;
   }
 }
 

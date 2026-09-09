@@ -34,6 +34,15 @@ export default function LinearPhilosophy() {
     <section className="linear-philosophy" id="philosophy">
       {/* Large statement headline — Linear style */}
       <div className="philosophy-header">
+        <div className="philosophy-logo">
+          <Image
+            src="/logo.jpg"
+            alt="DevShelf logo"
+            width={48}
+            height={48}
+            className="philosophy-logo-img"
+          />
+        </div>
         <h2 className="philosophy-statement">
           <span className="philosophy-emphasis">A new kind of learning platform.</span>{' '}
           <span className="philosophy-muted">
