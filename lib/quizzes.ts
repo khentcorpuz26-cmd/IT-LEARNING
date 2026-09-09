@@ -257,5 +257,285 @@ export const quizzes: Record<string, Question[]> = {
       answer: 0,
       explanation: 'GPU-accelerated properties (transform and opacity) do not trigger layout reflows, ensuring smooth 60fps animations on all devices.'
     }
+  ],
+  'next-app-router-rendering': [
+    {
+      prompt: 'A course catalog page shows the same published courses to every visitor and updates a few times a day. Which rendering strategy fits best?',
+      options: ['Server-side rendering on every request', 'Incremental static regeneration with a revalidate window', 'Marking the whole page a client component'],
+      answer: 1,
+      explanation: 'ISR serves a cached static page and regenerates it in the background after the revalidate window, matching content that changes occasionally but not per visitor.'
+    },
+    {
+      prompt: 'A page reads a session cookie to show whether the current visitor is enrolled in each course. What does this force?',
+      options: ['The page becomes cacheable forever', 'The page must render per request', 'The page can stay purely static'],
+      answer: 1,
+      explanation: 'Reading request-specific data such as cookies makes the response depend on the visitor, so the page must render on every request instead of being reused from a static cache.'
+    }
+  ],
+  'state-management-patterns': [
+    {
+      prompt: 'A fast-changing notification count and the signed-in user are both stored in one Context. Why does an unrelated header component re-render on every notification update?',
+      options: ['Context re-renders every consumer when the Provider value changes, regardless of which field a component reads', 'React always re-renders the whole app on any state change', 'Notification counts are stored in a separate virtual DOM'],
+      answer: 0,
+      explanation: 'Every consumer of a Context re-renders whenever the value passed to its Provider changes, even if that consumer only reads an unrelated field.'
+    },
+    {
+      prompt: 'Why is the list of courses in a catalog treated as server-cached state rather than plain client state?',
+      options: ['Because it never changes after the app loads', 'Because its true value lives on a server and the browser only holds a copy that can go stale', 'Because it must be stored in a dedicated store like Redux'],
+      answer: 1,
+      explanation: 'Server-cached state is a client-side copy of data whose real source of truth is a server, which is why a query library handles its fetching, caching, and refetching.'
+    }
+  ],
+  'web-performance-core-vitals': [
+    {
+      prompt: 'A hero image is set with CSS background-image and only becomes visible after four seconds. Which Core Web Vital does this most directly hurt?',
+      options: ['CLS', 'LCP', 'INP'],
+      answer: 1,
+      explanation: 'LCP measures how long the largest visible element takes to render, and a late-discovered background image delays exactly that.'
+    },
+    {
+      prompt: 'Clicking an "Enroll" button feels sluggish because a large synchronous filter runs inside the same click handler. Which metric does this affect, and what is a valid fix?',
+      options: ['CLS; add width and height to images', 'INP; break up or defer the long task off the immediate click handler', 'LCP; preload the button font'],
+      answer: 1,
+      explanation: 'INP measures the delay between an interaction and the next visual update, and a long synchronous task on the main thread during that click is the direct cause.'
+    }
+  ],
+  'accessible-interfaces': [
+    {
+      prompt: 'Why should an "Enroll" action be a real button element instead of a div with an onClick handler?',
+      options: ['A div cannot have any CSS styling applied to it', 'A real button is focusable and activates with Enter and Space without extra code', 'Divs are not allowed inside a form'],
+      answer: 1,
+      explanation: 'A native button element already receives keyboard focus and responds to Enter and Space, which a div would need role, tabindex, and manual key handling to reproduce.'
+    },
+    {
+      prompt: 'Why is placeholder text not an adequate substitute for a label element on an email input?',
+      options: ['Placeholder text disappears once typing starts and is not reliably announced like a real label', 'Placeholder text is only visible to screen readers', 'Inputs cannot have placeholder text and a label at the same time'],
+      answer: 0,
+      explanation: 'Placeholder text vanishes as soon as the user types and many screen readers announce it differently from or not at all compared to a connected label.'
+    }
+  ],
+  'frontend-testing-strategy': [
+    {
+      prompt: 'Where should a boundary case for a discount-calculation function, such as a discount larger than 100 percent, be tested?',
+      options: ['In a Playwright end-to-end test', 'In a unit test, since it is pure logic with plain inputs and outputs', 'It does not need a dedicated test since the UI will show if it is wrong'],
+      answer: 1,
+      explanation: 'A unit test isolates the pure calculation and checks boundary conditions in milliseconds without needing a rendered component or a browser.'
+    },
+    {
+      prompt: 'A Testing-Library test sometimes fails asserting that filtered results appear immediately after a keystroke. What is the likely cause and fix?',
+      options: ['The component is broken and must be rewritten', 'A race condition against an asynchronous update; use an async query like findByText or waitFor', 'The test should be moved to a unit test instead'],
+      answer: 1,
+      explanation: 'Asserting before an asynchronous update has completed is a common source of flakiness, and Testing Library async utilities wait for the expected change instead of racing it.'
+    }
+  ],
+  'auth-and-oauth-flows': [
+    {
+      prompt: 'Where should the exchange of an authorization code for an access token happen?',
+      options: ['In browser JavaScript, right after the redirect', 'Server to server, using the client secret', 'Inside the consent screen itself'],
+      answer: 1,
+      explanation: 'The code exchange requires the client secret, which must never be exposed to the browser.'
+    },
+    {
+      prompt: 'Why is storing an access token in localStorage risky?',
+      options: ['localStorage has a size limit too small for tokens', 'Any script that runs on the page, including an injected one, can read it', 'localStorage only works over HTTP, not HTTPS'],
+      answer: 1,
+      explanation: 'Anything readable by page JavaScript can be read and exfiltrated by an injected or compromised script.'
+    }
+  ],
+  'caching-strategies': [
+    {
+      prompt: 'What does a long Cache-Control max-age save that an ETag revalidation does not?',
+      options: ['An entire round trip to the server', 'The database query itself', 'The TLS handshake only'],
+      answer: 0,
+      explanation: 'With a long max-age the browser does not contact the server again until it expires; ETag still asks every time.'
+    },
+    {
+      prompt: 'Why combine a short TTL with explicit purge on writes?',
+      options: ['TTL alone is illegal under HTTP', 'A missed purge self-heals once the TTL expires', 'Explicit purge removes the need for any cache'],
+      answer: 1,
+      explanation: 'The TTL acts as a safety net so a bug in the purge path does not leave stale data forever.'
+    }
+  ],
+  'message-queues-async-work': [
+    {
+      prompt: 'Why should the enrollment request handler enqueue a job instead of sending the welcome email inline?',
+      options: ['Emails cannot be sent from request handlers', 'A slow or failing email provider should not block or fail the enrollment request', 'Queues are required by HTTP'],
+      answer: 1,
+      explanation: 'Moving unpredictable, non-critical work off the request path keeps the response fast and resilient.'
+    },
+    {
+      prompt: 'Why must a job handler be idempotent?',
+      options: ['Because messages are always sent twice on purpose', 'Because redelivery after a crash can cause the same message to be processed more than once', 'Because queues discard messages after one attempt'],
+      answer: 1,
+      explanation: 'An unacknowledged message is redelivered, so the same handler run can happen more than once.'
+    }
+  ],
+  'graphql-fundamentals': [
+    {
+      prompt: 'What causes the N+1 problem when listing courses with instructor names?',
+      options: ['GraphQL forbids nested fields', 'Each course instructor resolver fires its own lookup by default, one per course', 'The schema does not allow lists'],
+      answer: 1,
+      explanation: 'Independent per-item resolvers each issue their own lookup unless batching is added.'
+    },
+    {
+      prompt: 'When is a tailored REST endpoint still the simpler choice?',
+      options: ['When many different clients need very different shapes of the same data', 'When one client needs one fixed, predictable shape that benefits from HTTP caching', 'When the server has no database'],
+      answer: 1,
+      explanation: 'A single stable shape is easy to cache and debug with ordinary HTTP tooling.'
+    }
+  ],
+  'websockets-realtime': [
+    {
+      prompt: 'What HTTP status confirms a successful WebSocket upgrade?',
+      options: ['200 OK', '101 Switching Protocols', '204 No Content'],
+      answer: 1,
+      explanation: 'The server responds with 101 to confirm the connection is switching to WebSocket framing.'
+    },
+    {
+      prompt: 'Why use exponential backoff with jitter when reconnecting?',
+      options: ['To guarantee messages are never lost', 'To avoid many clients retrying in lockstep and overwhelming a struggling server', 'Because WebSockets require a delay by specification'],
+      answer: 1,
+      explanation: 'Backoff with randomness spreads out reconnect attempts instead of hammering the server at once.'
+    }
+  ],
+  'cicd-pipelines-in-depth': [
+    {
+      prompt: 'Why should lint and test stages run before the build stage?',
+      options: ['So a broken change is caught before time is spent producing an artifact', 'Because build stages cannot report failures', 'Tests only work after an artifact exists'],
+      answer: 0,
+      explanation: 'Catching a failure before the build stage keeps the failure close to its cause and avoids wasting time on a doomed artifact.'
+    },
+    {
+      prompt: 'What does re-deploying the previous tagged artifact accomplish?',
+      options: ['It upgrades the database automatically', 'It provides a fast rollback to a known-good release', 'It deletes the failing pipeline run'],
+      answer: 1,
+      explanation: 'Keeping tagged artifacts around lets a rollback simply re-deploy the last known-good one.'
+    }
+  ],
+  'docker-kubernetes-fundamentals': [
+    {
+      prompt: 'Why does a container start faster than a virtual machine?',
+      options: ['It shares the host kernel instead of booting its own OS', 'It has no image', 'It always runs without a CPU limit'],
+      answer: 0,
+      explanation: 'A container reuses the host kernel and isolates a process, unlike a VM which boots a full operating system.'
+    },
+    {
+      prompt: 'What does a Kubernetes service provide that talking to a pod directly does not?',
+      options: ['A stable address that survives pods being recreated', 'Free storage for the pod', 'A guarantee the pod never crashes'],
+      answer: 0,
+      explanation: 'Pods get new addresses each time they are recreated, so a service supplies the stable, load-balanced address other components rely on.'
+    }
+  ],
+  'monitoring-and-observability': [
+    {
+      prompt: 'Which pillar is best for finding which service in a request chain was slow?',
+      options: ['Logs', 'Metrics', 'Traces'],
+      answer: 2,
+      explanation: 'A trace reconstructs one request across services as spans, showing exactly where the time went.'
+    },
+    {
+      prompt: 'Why is "CPU above 80 percent" usually a weaker alert than "checkout error rate above 5 percent"?',
+      options: ['CPU can never spike', 'A CPU spike may not affect any user, while a checkout error rate directly reflects user impact', 'Error rate cannot be measured'],
+      answer: 1,
+      explanation: 'Symptom-based alerts tied to user impact avoid paging on causes, like a batch job, that may not matter to users.'
+    }
+  ],
+  'infrastructure-as-code': [
+    {
+      prompt: 'What does terraform plan do before you apply anything?',
+      options: ['It applies changes silently', 'It previews exactly what would be created, changed, or destroyed', 'It deletes the state file'],
+      answer: 1,
+      explanation: 'Plan compares configuration and state against real infrastructure and shows the intended changes without making them.'
+    },
+    {
+      prompt: 'What is configuration drift?',
+      options: ['A planned Terraform upgrade', 'A mismatch between declared configuration and real infrastructure, often from a manual change', 'A faster way to apply changes'],
+      answer: 1,
+      explanation: 'Drift happens when reality diverges from the configuration, commonly after an emergency manual fix outside the normal workflow.'
+    }
+  ],
+  'rate-limiting-and-scaling': [
+    {
+      prompt: 'What boundary problem does token bucket avoid compared to fixed window limiting?',
+      options: ['A near-double burst of requests across a window reset', 'Slower response times', 'Incompatibility with HTTP'],
+      answer: 0,
+      explanation: 'Fixed window can allow a burst at the end of one window and another at the start of the next; token bucket has no reset instant.'
+    },
+    {
+      prompt: 'Why must a rate limit counter be shared, such as in Redis, once a service scales horizontally?',
+      options: ['A local per-instance counter would let a client get a separate quota per instance', 'Redis is required by HTTP', 'Local counters are always faster'],
+      answer: 0,
+      explanation: 'A load balancer spreads requests across instances, so a counter kept only in one instance\'s memory would not see requests routed elsewhere.'
+    }
+  ],
+  'data-structures-essentials': [
+    {
+      prompt: 'Why does inserting an element in the middle of an array typically cost O(n)?',
+      options: ['Because indexing an array is O(n)', 'Because every element after the insertion point must shift', 'Because arrays cannot hold more than one data type'],
+      answer: 1,
+      explanation: 'Keeping the array contiguous means shifting all later elements down to make room.'
+    },
+    {
+      prompt: 'Which structure best supports instantly looking up one student record by ID?',
+      options: ['A hash map', 'A stack', 'A linked list'],
+      answer: 0,
+      explanation: 'A hash map gives average O(1) lookup by key instead of scanning every record.'
+    }
+  ],
+  'algorithms-and-big-o': [
+    {
+      prompt: 'What does Big-O notation primarily describe?',
+      options: ['The exact number of seconds a program takes', 'How cost grows as the input size increases', 'Which programming language was used'],
+      answer: 1,
+      explanation: 'Big-O describes the shape of the growth curve, ignoring constant factors and hardware.'
+    },
+    {
+      prompt: 'What turns an O(n^2) duplicate-removal function into an O(n) one?',
+      options: ['Removing all loops entirely', 'Checking membership in a set instead of scanning a list each time', 'Switching from Python to another language'],
+      answer: 1,
+      explanation: 'A set gives O(1) average membership checks, so the loop no longer scans a growing list each iteration.'
+    }
+  ],
+  'regular-expressions-practical': [
+    {
+      prompt: 'What is the key difference between a greedy and a lazy quantifier?',
+      options: ['Greedy matches as much as possible; lazy matches as little as possible', 'Greedy only matches digits', 'Lazy quantifiers ignore character classes'],
+      answer: 0,
+      explanation: 'Greedy quantifiers expand to the largest match that still lets the pattern succeed; lazy ones stop at the smallest.'
+    },
+    {
+      prompt: 'Why is a plain regex a poor tool for matching nested HTML tags?',
+      options: ['Regex cannot contain angle bracket characters', 'Regex has no built-in way to track nesting depth', 'HTML tags are always too long for a regex to match'],
+      answer: 1,
+      explanation: 'A regex engine has no memory of how deep it is inside nested tags, unlike a parser that tracks nesting with a stack.'
+    }
+  ],
+  'git-internals-and-plumbing': [
+    {
+      prompt: 'What does a Git blob object store?',
+      options: ['A file\'s raw content, with no filename attached', 'A directory listing of names and modes', 'A commit message and its parent hashes'],
+      answer: 0,
+      explanation: 'A blob is pure content; the name and mode pairing live in a tree object instead.'
+    },
+    {
+      prompt: 'What is a Git branch, at the object level?',
+      options: ['A full copy of every file at that point in history', 'A small file containing one commit hash', 'A compressed tree object listing every file'],
+      answer: 1,
+      explanation: 'A branch is a ref: a small file under .git/refs/heads holding a single commit hash that moves forward on each commit.'
+    }
+  ],
+  'free-developer-resources-communities': [
+    {
+      prompt: 'What should you check before starting work on an open-source pull request?',
+      options: ['Nothing, just open the pull request', 'Its CONTRIBUTING file and any code of conduct', 'Whether the maintainer is currently online'],
+      answer: 1,
+      explanation: 'CONTRIBUTING.md states the expected workflow and review process, and skipping it is a common reason a first PR gets closed unreviewed.'
+    },
+    {
+      prompt: 'Which is a stronger signal that a developer community is worth joining?',
+      options: ['A channel dominated by self-promotion links', 'Replies that explain their reasoning rather than only pasting code', 'A very high total member count'],
+      answer: 1,
+      explanation: 'Explained reasoning suggests experienced, engaged members, while raw member count and link spam do not indicate quality.'
+    }
   ]
 };
